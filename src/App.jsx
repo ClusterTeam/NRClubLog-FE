@@ -10,6 +10,7 @@ import Login from './pages/admin/Login'
 import Dashboard from './pages/admin/Dashboard'
 import ClubLog from './pages/admin/ClubLog'
 import ClubList from './pages/admin/ClubList'
+import Statistics from './pages/admin/Statistics'
 
 // 슈퍼 페이지들
 import SuperLogin from './pages/super/Login'
@@ -25,6 +26,7 @@ import SuperPlaces from './pages/super/Places'
  *   /:slug/setting/main              대시보드
  *   /:slug/setting/club_log          활동 이력 관리
  *   /:slug/setting/club_list         동아리 일람
+ *   /:slug/setting/stats             동아리 활동 통계
  *
  * 슈퍼 관리자:
  *   /super/setting                   슈퍼 로그인 (다음 턴에 페이지 작성)
@@ -45,6 +47,7 @@ export default function App() {
         <Route path="/:slug/setting/main" element={<Dashboard />} />
         <Route path="/:slug/setting/club_log" element={<ClubLog />} />
         <Route path="/:slug/setting/club_list" element={<ClubList />} />
+        <Route path="/:slug/setting/stats" element={<Statistics />} />
       </Route>
 
       {/* 슈퍼 관리자 */}

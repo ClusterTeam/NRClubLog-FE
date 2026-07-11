@@ -31,6 +31,7 @@ export default function AdminHeader() {
     { to: `/${slug}/setting/main`, label: '대시보드' },
     { to: `/${slug}/setting/club_log`, label: '동아리 활동 이력' },
     { to: `/${slug}/setting/club_list`, label: '동아리 일람' },
+    { to: `/${slug}/setting/stats`, label: '활동 통계' },
   ]
   const clubLogUrl = `/${slug}/clublog`
 
