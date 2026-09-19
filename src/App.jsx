@@ -1,8 +1,10 @@
-import { Routes, Route, Link } from 'react-router-dom'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
+
 
 import RequireAuth from './components/RequireAuth'
 import RequireSuperAuth from './components/RequireSuperAuth'
 import { useDocumentTitle } from './hooks/useDocumentTitle'
+
 
 // 기관 페이지들
 import MainPage from './pages/MainPage'
@@ -12,10 +14,12 @@ import ClubLog from './pages/admin/ClubLog'
 import ClubList from './pages/admin/ClubList'
 import Statistics from './pages/admin/Statistics'
 
+
 // 슈퍼 페이지들
 import SuperLogin from './pages/super/Login'
 import SuperDashboard from './pages/super/Dashboard'
 import SuperPlaces from './pages/super/Places'
+
 
 /*
  * 라우터 — 멀티테넌트.
@@ -36,11 +40,39 @@ import SuperPlaces from './pages/super/Places'
  * 그 외 경로 -> NotFound (안내 메시지).
  */
 export default function App() {
+  const location = useLocation()
+  const path = location.pathname.replace(/[/]+$/, '') || '/'
+
+
+  // Keep old bookmarks and links working, using the short public URL.
+  let canonicalPath = null
+  if (path === '/nareum/clublog') canonicalPath = '/'
+  if (path === '/nareum/setting') canonicalPath = '/admin'
+  if (path.startsWith('/nareum/setting/')) {
+    canonicalPath = '/admin/' + path.slice('/nareum/setting/'.length)
+  }
+  if (canonicalPath !== null) {
+    return <Navigate replace to={{ pathname: canonicalPath, search: location.search, hash: location.hash }} state={location.state} />
+  }
+
+
+  // Only translate the route match, not the browser URL. Existing pages still
+  // receive slug="nareum", including auth and API calls. Other tenants and
+  // super-admin routes retain their original paths and behavior.
+  let routePath = path
+  if (path === '/') routePath = '/nareum/clublog'
+  else if (path === '/admin') routePath = '/nareum/setting'
+  else if (path.startsWith('/admin/')) {
+    routePath = '/nareum/setting/' + path.slice('/admin/'.length)
+  }
+
+
   return (
-    <Routes>
+    <Routes location={{ ...location, pathname: routePath }}>
       {/* 기관 공개 + 로그인 */}
       <Route path="/:slug/clublog" element={<MainPage />} />
       <Route path="/:slug/setting" element={<Login />} />
+
 
       {/* 기관 관리자 보호 라우트 */}
       <Route element={<RequireAuth />}>
@@ -50,6 +82,7 @@ export default function App() {
         <Route path="/:slug/setting/stats" element={<Statistics />} />
       </Route>
 
+
       {/* 슈퍼 관리자 */}
       <Route path="/super/setting" element={<SuperLogin />} />
       <Route element={<RequireSuperAuth />}>
@@ -57,10 +90,12 @@ export default function App() {
         <Route path="/super/setting/places" element={<SuperPlaces />} />
       </Route>
 
+
       <Route path="*" element={<NotFound />} />
     </Routes>
   )
 }
+
 
 function NotFound() {
   useDocumentTitle('페이지를 찾을 수 없습니다')
@@ -81,3 +116,4 @@ function NotFound() {
     </div>
   )
 }
+
