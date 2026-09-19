@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { placeApi } from '../api/places'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 
@@ -149,10 +149,16 @@ export default function MainPage() {
   return (
     <div className="min-h-screen bg-stone-50">
       {/* 상단 — 풀네임으로 페이지 타이틀 */}
-      <header className="bg-orange-700 px-6 py-6 text-white sm:px-10">
-        <h1 className="text-xl font-bold sm:text-2xl">
+      <header className="flex items-center gap-4 bg-orange-700 px-6 py-6 text-white sm:px-10">
+        <h1 className="min-w-0 text-xl font-bold sm:text-2xl">
           {info.full_name} 동아리 활동일지
         </h1>
+        <Link
+          to={`/${slug}/setting`}
+          className="shrink-0 rounded-md border border-white/60 px-3 py-2 text-sm font-medium transition hover:bg-white/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+        >
+          관리자
+        </Link>
       </header>
 
       <main className="mx-auto max-w-3xl px-4 py-8 sm:px-6">
