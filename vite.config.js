@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react'
 
 // 백엔드 후보 — 사용할 것만 활성화하세요 (한 줄만 주석 해제).
 //const API_TARGET = 'http://127.0.0.1:5015'                  // 로컬 개발
-const API_TARGET = 'https://clublog-api.team-cluster.kr'  // 시놀로지 배포
+const API_TARGET = 'https://clublog-api.nareumyouth.kr'  // 시놀로지 배포
 
 // https://vite.dev/config/
 // Tailwind v3 는 PostCSS 기반으로 동작 -> 여기 따로 import 불필요.
